@@ -4,8 +4,275 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GrandTrain.ca - Bientôt Disponible !</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> </head>
+    <style>
+        /* General Body Styles */
+        body {
+            font-family: 'Garamond', 'Times New Roman', serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e9e7e3; /* Parchemin */
+            color: #4a3b31; /* Brun foncé texte */
+            line-height: 1.7;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Container for centering content */
+        .container {
+            width: 90%;
+            max-width: 960px;
+            margin: auto;
+            overflow: hidden;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: #00205B; /* Bleu Québec */
+            color: #fff;
+            padding: 1rem 0;
+            border-bottom: #C8102E 4px solid; /* Rouge Canadien */
+        }
+
+        header .logo {
+            float: left;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        header nav {
+            float: right;
+            margin-top: 5px;
+        }
+
+        header nav ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        header nav ul li {
+            display: inline;
+            margin-left: 20px;
+        }
+
+        header nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        header nav ul li a.active {
+            color: #FFD700; /* Or pour langue active */
+        }
+
+        /* Main Content Area for Upcoming Page */
+        .upcoming-container {
+            text-align: center;
+            padding: 3rem 0;
+            flex-grow: 1;
+        }
+
+        .upcoming-content h1 {
+            font-size: 2.8rem;
+            color: #4a3b31;
+            margin-bottom: 1.5rem;
+            font-weight: normal;
+        }
+
+        /* Container for Train Animation and Cities */
+        .train-animation-placeholder {
+            background-color: #f4f0ea;
+            padding: 1rem 0;
+            margin: 2rem auto;
+            border-radius: 8px;
+            border: 1px dashed #b8a898;
+            max-width: 700px;
+            color: #777;
+            overflow: hidden; 
+            position: relative;
+            height: 120px; /* Increased height for SVG train */
+            display: flex; 
+            align-items: center;
+        }
+
+        .city-graphic {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 0.5em 1em;
+            background-color: #DDDDDD;
+            border-radius: 4px;
+            font-weight: bold;
+            z-index: 10; 
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+            white-space: nowrap; 
+        }
+
+        .city-left-graphic { /* Windsor */
+            left: 15px; 
+            color: #333;
+            border: 1px solid #C8102E; /* Bordure Rouge Canadien */
+        }
+        .city-left-graphic .city-icon { color: #C8102E; }
+
+
+        .city-right-graphic { /* Québec */
+            right: 15px; 
+            color: #00205B; /* Texte Bleu Québec */
+            border: 1px solid #00205B; /* Bordure Bleu Québec */
+        }
+        .city-right-graphic .city-icon { color: #00205B; }
+
+        /* SVG Train Animation Styling */
+        .css-train-animation-svg {
+            /* SVG width is 600, viewBox 600 100. For display, let's make it ~300px wide */
+            width: 360px; /* Increased width for better detail (600 * 0.6) */
+            height: 60px; /* (100 * 0.6) to maintain aspect ratio */
+            animation: travel-ltr-svg 18s linear infinite; /* Increased duration */
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%); 
+            z-index: 5; 
+        }
+        
+        /* Keyframes for SVG train moving left to right */
+        /* Placeholder width: 700px */
+        /* SVG display width: 360px */
+        /* Windsor city (left): offset 15px, width ~120px. End of Windsor: 135px */
+        /* Quebec city (right): offset 15px from right, width ~120px. Start of Quebec: 700 - 15 - 120 = 565px */
+        @keyframes travel-ltr-svg {
+            0% {
+                left: -370px; /* Start completely hidden to the left (SVG width + a bit) */
+                opacity: 0;
+            }
+            10% { /* Still hidden, preparing to emerge */
+                left: -370px;
+                opacity: 0;
+            }
+            20% { /* Nose of the train has passed Windsor */
+                left: 140px; /* (End of Windsor city graphic) */
+                opacity: 1;
+            }
+            75% { /* Back of the train is about to enter Quebec city */
+                  /* Train's left edge = Start of Quebec city - SVG width */
+                  /* left = 565px - 360px = 205px */
+                left: 205px; 
+                opacity: 1;
+            }
+            85% { /* Nose of the train has entered Quebec city */
+                left: calc(100% - 15px - 120px - 360px + 50px); /* complex, adjust as needed */
+                opacity: 1;
+            }
+            100% {
+                left: 100%; /* Completely hidden to the right */
+                opacity: 0;
+            }
+        }
+        
+        .intro-text {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .links-section {
+            margin-bottom: 3rem;
+        }
+
+        .links-section p {
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #C8102E; /* Rouge Canadien */
+            color: #fff;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            margin: 0.5rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .cta-button:hover {
+            background-color: #A60C26; /* Rouge Canadien plus foncé */
+            transform: translateY(-2px);
+        }
+
+        .cta-button.mail-button {
+            background-color: transparent;
+            color: #00205B; /* Bleu Québec */
+            border: 2px solid #00205B; /* Bleu Québec */
+        }
+
+        .cta-button.mail-button:hover {
+            background-color: #e0e8f0; /* Fond bleu très clair */
+            color: #001a48; /* Bleu Québec plus foncé */
+        }
+
+        .contact-info {
+            margin-top: 1.5rem;
+        }
+
+        .map-section {
+            background-color: #f8f6f2;
+            padding: 2.5rem 0;
+            margin-top: 2rem;
+            border-top: 1px solid #dddcdc;
+            border-bottom: 1px solid #dddcdc;
+        }
+
+        .map-section h2 {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: normal;
+        }
+        .map-section > p {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            max-width: 800px;
+            margin: 1rem auto;
+            background: #ccc;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .map-placeholder iframe {
+            display: block;
+            width: 100%;
+        }
+
+        .map-caption {
+            font-size: 0.9rem;
+            text-align: center;
+            color: #777;
+            margin-top: 0.5rem;
+        }
+
+        footer {
+            background: #4a3b31; /* Brun foncé original pour le footer */
+            color: #fff;
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: auto;
+        }
+    </style>
+</head>
 <body>
 
     <header>
@@ -25,14 +292,76 @@
             <h1 class="fr-content">GrandTrain.ca arrive à grands pas !</h1>
             <h1 class="en-content" style="display:none;">GrandTrain.ca is arriving soon!</h1>
 
-            <div class="train-animation-placeholder fr-content">
-                <p>🚂... (Ici, votre animation de train)... 🛤️</p>
-                <p>Imaginez un train stylisé traversant l'écran ou une belle illustration animée.</p>
+            <div class="train-animation-placeholder">
+                <div class="city-graphic city-left-graphic fr-content"><span class="city-icon">🏢</span> Windsor</div>
+                <div class="city-graphic city-left-graphic en-content" style="display:none;"><span class="city-icon">🏢</span> Windsor</div>
+                
+                <svg class="css-train-animation-svg" viewBox="0 0 600 100" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="trainBodyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" style="stop-color:#D1D3D4; stop-opacity:1" />
+                      <stop offset="100%" style="stop-color:#B0B3B8; stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="trainAccentGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" style="stop-color:#C8102E; stop-opacity:1" />
+                      <stop offset="100%" style="stop-color:#A60C26; stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="windowGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" style="stop-color:#2c3e50; stop-opacity:1" />
+                      <stop offset="100%" style="stop-color:#34495e; stop-opacity:1" />
+                    </linearGradient>
+                    <style>
+                      .train-body-main { fill: url(#trainBodyGradient); stroke: #2c3e50; stroke-width: 0.75; }
+                      .train-body-accent { fill: url(#trainAccentGradient); stroke: #2c3e50; stroke-width: 0.5;}
+                      .train-window { fill: url(#windowGradient); stroke: #1c2833; stroke-width: 0.5; }
+                      .train-wheel { fill: #34495e; stroke: #2c3e50; stroke-width: 1; }
+                      .train-coupler { fill: #7f8c8d; stroke: #333; stroke-width: 0.5; }
+                      .train-underbody { fill: #5D6D7E; stroke: #34495e; stroke-width: 0.5;}
+                    </style>
+                  </defs>
+                  <g id="locomotive">
+                    <rect class="train-underbody" x="5" y="75" width="170" height="15" rx="3"/>
+                    <path class="train-body-main" d="M10,45 Q60,20 100,30 L160,30 C165,30 170,35 170,40 L170,75 L10,75 L10,45 Z" />
+                    <path class="train-body-accent" d="M10,45 Q60,20 100,30 L80,30 Q40,25 10,48 Z" />
+                    <path class="train-window" d="M70,32 Q90,31 105,35 L105,48 Q90,50 70,48 Z" />
+                    <rect fill="#FFFFFF" x="10" y="60" width="160" height="3" />
+                    <circle class="train-wheel" cx="45" cy="83" r="8"/>
+                    <circle class="train-wheel" cx="135" cy="83" r="8"/>
+                  </g>
+                  <g id="wagon1" transform="translate(185, 0)">
+                    <rect class="train-underbody" x="0" y="75" width="130" height="15" rx="3"/>
+                    <rect class="train-body-main" x="0" y="30" width="130" height="45" rx="5"/>
+                    <rect class="train-window" x="10" y="38" width="110" height="18" rx="3"/>
+                    <rect fill="#FFFFFF" x="0" y="60" width="130" height="3" />
+                    <circle class="train-wheel" cx="35" cy="83" r="8"/>
+                    <circle class="train-wheel" cx="95" cy="83" r="8"/>
+                    <rect class="train-coupler" x="-12" y="55" width="12" height="10" />
+                  </g>
+                  <g id="wagon2" transform="translate(327, 0)">
+                    <rect class="train-underbody" x="0" y="75" width="130" height="15" rx="3"/>
+                    <rect class="train-body-main" x="0" y="30" width="130" height="45" rx="5"/>
+                    <rect class="train-window" x="10" y="38" width="110" height="18" rx="3"/>
+                    <rect fill="#FFFFFF" x="0" y="60" width="130" height="3" />
+                    <circle class="train-wheel" cx="35" cy="83" r="8"/>
+                    <circle class="train-wheel" cx="95" cy="83" r="8"/>
+                    <rect class="train-coupler" x="-12" y="55" width="12" height="10" />
+                  </g>
+                  <g id="wagon3" transform="translate(469, 0)">
+                    <rect class="train-underbody" x="0" y="75" width="130" height="15" rx="3"/>
+                    <rect class="train-body-main" x="0" y="30" width="130" height="45" rx="5"/>
+                    <rect class="train-window" x="10" y="38" width="110" height="18" rx="3"/>
+                    <rect fill="#FFFFFF" x="0" y="60" width="130" height="3" />
+                    <circle class="train-wheel" cx="35" cy="83" r="8"/>
+                    <circle class="train-wheel" cx="95" cy="83" r="8"/>
+                    <rect class="train-coupler" x="-12" y="55" width="12" height="10" />
+                  </g>
+                </svg>
+                
+                <div class="city-graphic city-right-graphic fr-content">Québec <span class="city-icon">🏙️</span></div>
+                <div class="city-graphic city-right-graphic en-content" style="display:none;">Quebec City <span class="city-icon">🏙️</span></div>
             </div>
-            <div class="train-animation-placeholder en-content" style="display:none;">
-                <p>🚂... (Your train animation here)... 🛤️</p>
-                <p>Imagine a stylized train crossing the screen or a beautiful animated illustration.</p>
-            </div>
+             <p class="fr-content" style="font-size:0.9em; margin-top: 1rem;">Un petit voyage en attendant le grand départ...</p>
+             <p class="en-content" style="display:none; font-size:0.9em; margin-top: 1rem;">A little journey while waiting for the grand departure...</p>
 
             <p class="fr-content intro-text">Préparez-vous à découvrir une sélection exclusive d'expériences et de lieux, basée sur des millions de vues et des avis authentiques.</p>
             <p class="en-content intro-text" style="display:none;">Get ready to discover an exclusive selection of experiences and places, based on millions of views and authentic reviews.</p>
@@ -40,7 +369,7 @@
             <div class="links-section">
                 <p class="fr-content">En attendant le lancement complet, explorez nos contributions actuelles sur Google Maps :</p>
                 <p class="en-content" style="display:none;">While awaiting the full launch, explore our current contributions on Google Maps:</p>
-                <a href="YOUR_PUBLIC_Maps_PROFILE_LINK_HERE" target="_blank" class="cta-button">
+                <a href="https://www.google.com/maps/contrib/[LONG_USER_ID]/reviews/" target="_blank" rel="noopener noreferrer" class="cta-button">
                     <span class="fr-content">Voir nos 30M+ vues d'avis</span>
                     <span class="en-content" style="display:none;">See our 30M+ review views</span>
                 </a>
@@ -57,13 +386,12 @@
             <p class="en-content" style="display:none;">A glimpse of one of the many routes we'll be exploring.</p>
             <div class="map-placeholder">
                 <iframe
-                    width="100%"
                     height="450"
-                    style="border:0"
+                    style="border:0;"
                     loading="lazy"
                     allowfullscreen
-                    src="https://www.google.com/maps/embed/v1/view?key=YOUR_Maps_API_KEY&center=44.0,-78.0&zoom=7">
-                    </iframe>
+                    src="maps.google.com/00">
+                </iframe>
                 <p class="map-caption fr-content">(Carte interactive du corridor Montréal-Windsor à venir)</p>
                 <p class="map-caption en-content" style="display:none;">(Interactive map of the Montreal-Windsor corridor coming soon)</p>
             </div>
@@ -72,11 +400,41 @@
 
     <footer>
         <div class="container">
-            <p class="fr-content">&copy; <span id="yearFr"></span> GrandTrain.ca - Bientôt en gare !</p>
-            <p class="en-content" style="display:none;">&copy; <span id="yearEn"></span> GrandTrain.ca - Arriving soon!</p>
+            <p class="fr-content">© <span id="yearFr"></span> GrandTrain.ca - Bientôt en gare !</p>
+            <p class="en-content" style="display:none;">© <span id="yearEn"></span> GrandTrain.ca - Arriving soon!</p>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        function switchLang(lang) {
+            const currentLang = document.documentElement.lang;
+            if (lang === currentLang) return; 
+
+            document.documentElement.lang = lang; 
+
+            document.querySelectorAll('.fr-content').forEach(el => {
+                el.style.display = (lang === 'fr') ? '' : 'none';
+            });
+            document.querySelectorAll('.en-content').forEach(el => {
+                el.style.display = (lang === 'en') ? '' : 'none';
+            });
+
+            const langFrButton = document.querySelector('.lang-switcher .lang-fr');
+            const langEnButton = document.querySelector('.lang-switcher .lang-en');
+            if (langFrButton) langFrButton.classList.toggle('active', lang === 'fr');
+            if (langEnButton) langEnButton.classList.toggle('active', lang === 'en');
+        }
+
+        const currentYear = new Date().getFullYear();
+        const yearFrEl = document.getElementById('yearFr');
+        const yearEnEl = document.getElementById('yearEn');
+        if (yearFrEl) yearFrEl.textContent = currentYear;
+        if (yearEnEl) yearEnEl.textContent = currentYear;
+
+        window.onload = () => {
+           const initialLang = document.documentElement.lang || 'fr';
+           switchLang(initialLang);
+        };
+    </script>
 </body>
 </html>
