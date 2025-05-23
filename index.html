@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrandTrain.ca - Bientôt Disponible !</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> </head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="logo">GrandTrain.ca</div>
+            <nav>
+                <ul class="lang-switcher">
+                    <li><a href="#" onclick="switchLang('fr'); return false;" class="lang-fr active">FR</a></li>
+                    <li><a href="#" onclick="switchLang('en'); return false;" class="lang-en">EN</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container upcoming-container">
+        <div class="upcoming-content">
+            <h1 class="fr-content">GrandTrain.ca arrive à grands pas !</h1>
+            <h1 class="en-content" style="display:none;">GrandTrain.ca is arriving soon!</h1>
+
+            <div class="train-animation-placeholder fr-content">
+                <p>🚂... (Ici, votre animation de train)... 🛤️</p>
+                <p>Imaginez un train stylisé traversant l'écran ou une belle illustration animée.</p>
+            </div>
+            <div class="train-animation-placeholder en-content" style="display:none;">
+                <p>🚂... (Your train animation here)... 🛤️</p>
+                <p>Imagine a stylized train crossing the screen or a beautiful animated illustration.</p>
+            </div>
+
+            <p class="fr-content intro-text">Préparez-vous à découvrir une sélection exclusive d'expériences et de lieux, basée sur des millions de vues et des avis authentiques.</p>
+            <p class="en-content intro-text" style="display:none;">Get ready to discover an exclusive selection of experiences and places, based on millions of views and authentic reviews.</p>
+
+            <div class="links-section">
+                <p class="fr-content">En attendant le lancement complet, explorez nos contributions actuelles sur Google Maps :</p>
+                <p class="en-content" style="display:none;">While awaiting the full launch, explore our current contributions on Google Maps:</p>
+                <a href="YOUR_PUBLIC_Maps_PROFILE_LINK_HERE" target="_blank" class="cta-button">
+                    <span class="fr-content">Voir nos 30M+ vues d'avis</span>
+                    <span class="en-content" style="display:none;">See our 30M+ review views</span>
+                </a>
+                <p class="fr-content contact-info">Pour toute question ou partenariat :</p>
+                <p class="en-content contact-info" style="display:none;">For any questions or partnerships:</p>
+                <a href="mailto:info@grandtrain.ca" class="cta-button mail-button">info@grandtrain.ca</a>
+            </div>
+        </div>
+
+        <div class="map-section">
+            <h2 class="fr-content">À l'horizon : Le corridor Montréal-Windsor</h2>
+            <h2 class="en-content" style="display:none;">On the Horizon: The Montreal-Windsor Corridor</h2>
+            <p class="fr-content">Un aperçu de l'une des nombreuses routes que nous explorerons.</p>
+            <p class="en-content" style="display:none;">A glimpse of one of the many routes we'll be exploring.</p>
+            <div class="map-placeholder">
+                <iframe
+                    width="100%"
+                    height="450"
+                    style="border:0"
+                    loading="lazy"
+                    allowfullscreen
+                    src="https://www.google.com/maps/embed/v1/view?key=YOUR_Maps_API_KEY&center=44.0,-78.0&zoom=7">
+                    </iframe>
+                <p class="map-caption fr-content">(Carte interactive du corridor Montréal-Windsor à venir)</p>
+                <p class="map-caption en-content" style="display:none;">(Interactive map of the Montreal-Windsor corridor coming soon)</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p class="fr-content">&copy; <span id="yearFr"></span> GrandTrain.ca - Bientôt en gare !</p>
+            <p class="en-content" style="display:none;">&copy; <span id="yearEn"></span> GrandTrain.ca - Arriving soon!</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
