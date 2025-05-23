@@ -1,0 +1,69 @@
+<svg width="600" height="100" viewBox="0 0 600 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="trainGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#C8102E; stop-opacity:1" /> <stop offset="100%" style="stop-color:#A60C26; stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="windowGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ADD8E6; stop-opacity:1" /> <stop offset="100%" style="stop-color:#87CEEB; stop-opacity:1" />
+    </linearGradient>
+    <style>
+      .train-body { fill: url(#trainGradient); stroke: #333; stroke-width: 1; }
+      .train-window { fill: url(#windowGradient); stroke: #222; stroke-width: 0.5; }
+      .train-wheel { fill: #444; stroke: #222; stroke-width: 1; }
+      .train-coupler { fill: #666; stroke: #333; stroke-width: 0.5; }
+      .train-stripe { fill: #FFFFFF; }
+    </style>
+  </defs>
+
+  <g id="locomotive">
+    <path class="train-body" d="M10,30 
+                               Q20,20 40,25 
+                               L130,25 
+                               Q145,25 150,40 
+                               L150,70 
+                               Q145,85 130,85 
+                               L20,85 
+                               Q10,85 10,70 
+                               L10,30 Z" />
+    <path class="train-window" d="M20,35 
+                                 Q25,30 40,33
+                                 L70,33 
+                                 L70,50
+                                 L20,50 Z" />
+    <rect class="train-window" x="75" y="33" width="30" height="17" rx="2"/>
+    
+    <rect class="train-stripe" x="10" y="53" width="140" height="5" />
+
+    <circle class="train-wheel" cx="40" cy="88" r="7"/>
+    <circle class="train-wheel" cx="110" cy="88" r="7"/>
+  </g>
+
+  <g id="wagon1" transform="translate(160, 0)">
+    <rect class="train-body" x="0" y="25" width="120" height="60" rx="5"/>
+    <rect class="train-window" x="15" y="35" width="35" height="20" rx="2"/>
+    <rect class="train-window" x="65" y="35" width="35" height="20" rx="2"/>
+    <rect class="train-stripe" x="0" y="53" width="120" height="5" />
+    <circle class="train-wheel" cx="30" cy="88" r="7"/>
+    <circle class="train-wheel" cx="90" cy="88" r="7"/>
+    <rect class="train-coupler" x="-10" y="55" width="10" height="8" />
+  </g>
+
+  <g id="wagon2" transform="translate(290, 0)"> <rect class="train-body" x="0" y="25" width="120" height="60" rx="5"/>
+    <rect class="train-window" x="15" y="35" width="35" height="20" rx="2"/>
+    <rect class="train-window" x="65" y="35" width="35" height="20" rx="2"/>
+    <rect class="train-stripe" x="0" y="53" width="120" height="5" />
+    <circle class="train-wheel" cx="30" cy="88" r="7"/>
+    <circle class="train-wheel" cx="90" cy="88" r="7"/>
+    <rect class="train-coupler" x="-10" y="55" width="10" height="8" />
+  </g>
+
+  <g id="wagon3" transform="translate(420, 0)"> <rect class="train-body" x="0" y="25" width="120" height="60" rx="5"/>
+    <rect class="train-window" x="15" y="35" width="35" height="20" rx="2"/>
+    <rect class="train-window" x="65" y="35" width="35" height="20" rx="2"/>
+    <rect class="train-stripe" x="0" y="53" width="120" height="5" />
+    <circle class="train-wheel" cx="30" cy="88" r="7"/>
+    <circle class="train-wheel" cx="90" cy="88" r="7"/>
+    <rect class="train-coupler" x="-10" y="55" width="10" height="8" />
+  </g>
+
+</svg>
