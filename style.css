@@ -1,0 +1,189 @@
+body {
+    font-family: 'Garamond', 'Times New Roman', serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e9e7e3; /* Un fond plus doux, parcheminé */
+    color: #4a3b31; /* Brun foncé pour le texte */
+    line-height: 1.7;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    width: 90%;
+    max-width: 960px; /* Un peu plus resserré pour une page "upcoming" */
+    margin: auto;
+    overflow: hidden;
+    padding: 0 20px;
+}
+
+header {
+    background: #4a3b31; /* Brun foncé */
+    color: #fff;
+    padding: 1rem 0;
+    border-bottom: #c0a062 3px solid; /* Or vieilli */
+}
+
+header .logo {
+    float: left;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+header nav {
+    float: right;
+    margin-top: 5px;
+}
+
+header nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+header nav ul li {
+    display: inline;
+    margin-left: 20px;
+}
+
+header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+header nav ul li a.active {
+    color: #c0a062;
+}
+
+.upcoming-container {
+    text-align: center;
+    padding: 3rem 0;
+    flex-grow: 1; /* Fait en sorte que le contenu principal pousse le footer vers le bas */
+}
+
+.upcoming-content h1 {
+    font-size: 2.8rem;
+    color: #4a3b31;
+    margin-bottom: 1.5rem;
+    font-weight: normal;
+}
+
+.train-animation-placeholder {
+    background-color: #f4f0ea;
+    padding: 2rem;
+    margin: 2rem auto;
+    border-radius: 8px;
+    border: 1px dashed #c0a062;
+    max-width: 600px;
+    font-style: italic;
+    color: #777;
+}
+.train-animation-placeholder p:first-child {
+    font-size: 2rem; /* Pour l'emoji train */
+    margin-bottom: 0.5rem;
+}
+
+
+.intro-text {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.links-section {
+    margin-bottom: 3rem;
+}
+
+.links-section p {
+    margin-bottom: 0.5rem;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: #8b7350; /* Brun moyen pour les boutons */
+    color: #fff;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    margin: 0.5rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border: 2px solid transparent;
+}
+
+.cta-button:hover {
+    background-color: #705d41;
+    transform: translateY(-2px);
+}
+
+.cta-button.mail-button {
+    background-color: transparent;
+    color: #8b7350;
+    border: 2px solid #8b7350;
+}
+
+.cta-button.mail-button:hover {
+    background-color: #f4f0ea;
+    color: #705d41;
+}
+
+
+.map-section {
+    background-color: #f8f6f2;
+    padding: 2.5rem 0;
+    margin-top: 2rem;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.map-section h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-weight: normal;
+}
+.map-section > p { /* Pour le paragraphe descriptif de la section carte */
+    text-align: center;
+    margin-bottom: 1.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.map-placeholder {
+    width: 100%;
+    max-width: 800px; /* Limiter la largeur de la carte */
+    margin: 1rem auto;
+    background: #ccc; /* Placeholder si l'iframe ne charge pas */
+    border-radius: 5px;
+    overflow: hidden; /* Pour bien contenir l'iframe */
+}
+
+.map-placeholder iframe {
+    display: block; /* Évite les espaces sous l'iframe */
+}
+
+.map-caption {
+    font-size: 0.9rem;
+    text-align: center;
+    color: #777;
+    margin-top: 0.5rem;
+}
+
+footer {
+    background: #4a3b31;
+    color: #fff;
+    text-align: center;
+    padding: 1.5rem 0;
+    margin-top: auto; /* S'assure que le footer est en bas si le contenu est court */
+}
+
+/* Classes pour cacher/montrer contenu (identiques à avant) */
+.hidden {
+    display: none;
+}
