@@ -1,0 +1,108 @@
+# Workflow for deploying PR previews to GitHub Pages subdirectory
+name: Deploy PR Preview to Pages
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened] # Trigger on PR creation, updates, and reopening
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+# Also needs pull-request write permission to comment on PRs
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  pull-requests: write
+
+# Allow only one concurrent deployment for each PR, cancelling older runs for the same PR.
+concurrency:
+  group: "pages-pr-${{ github.event.number }}"
+  cancel-in-progress: true
+
+jobs:
+  deploy-preview:
+    environment:
+      name: github-pages-pr-preview # Using a slightly different environment name for clarity
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Determine Preview Path
+        id: path_vars
+        run: |
+          if [ -z "${{ github.event.number }}" ]; then
+            echo "Error: PR number (github.event.number) is not available."
+            exit 1
+          fi
+          echo "preview_path=pr-preview/${{ github.event.number }}" >> $GITHUB_ENV
+          # Base URL path for potential <base> tag, includes leading and trailing slash for safety
+          echo "base_url_path=/pr-preview/${{ github.event.number }}/" >> $GITHUB_ENV
+          echo "Preview path will be: pr-preview/${{ github.event.number }}"
+
+      - name: Validate Preview Path
+        run: |
+          if [ -z "${{ env.preview_path }}" ]; then
+            echo "Error: env.preview_path is empty. This would cause a root deployment."
+            exit 1
+          else
+            echo "env.preview_path is set to: ${{ env.preview_path }}"
+          fi
+
+      # Optional: Adjust base href for PR previews if assets don't load correctly.
+      # Start without this, as relative paths should work.
+      # - name: Adjust base href for PR previews
+      #   run: |
+      #     # Ensure the path in sed command is correctly escaped if base_url_path contains special characters
+      #     # Using a different delimiter for sed in case path contains slashes
+      #     sed -i "s%<head>%<head><base href='${{ github.server_url }}/${{ github.repository }}${{ env.base_url_path }}' />%" index.html
+      #   working-directory: . # Assuming index.html is in the root
+
+      - name: Prepare Artifact for Upload
+        run: |
+          echo "Creating directory: artifact_to_upload/${{ env.preview_path }}"
+          mkdir -p artifact_to_upload/${{ env.preview_path }}
+          echo "Copying files to artifact_to_upload/${{ env.preview_path }}/"
+          # Copy all files and directories, excluding .git, .github, and the artifact dir itself
+          # Using rsync for more control and to easily exclude
+          rsync -av --progress . artifact_to_upload/${{ env.preview_path }}/ --exclude .git --exclude .github --exclude artifact_to_upload
+          echo "Finished copying files."
+        # This moves all files into the target directory.
+
+      - name: List Artifact Contents
+        run: |
+          echo "Listing contents of artifact_to_upload directory:"
+          ls -R artifact_to_upload
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'artifact_to_upload' # Upload the parent directory which contains the pr-preview/NUMBER structure
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Post PR Comment with Preview Link (Find Existing)
+        if: success() # Run only if previous steps were successful
+        uses: peter-evans/find-comment@v3
+        id: fc
+        with:
+          issue-number: ${{ github.event.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: '🚀 PR Preview available at:'
+
+      - name: Create or Update PR Comment
+        if: success() # Run only if previous steps were successful
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.number }}
+          body: |
+            🚀 PR Preview available at: https://grandtrain.ca/pr-preview/${{ github.event.number }}/
+            (Debug - Raw page_url from deployment: ${{ steps.deployment.outputs.page_url }})
+            Workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          edit-mode: replace

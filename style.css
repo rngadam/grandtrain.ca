@@ -1,189 +1,433 @@
-body {
-    font-family: 'Garamond', 'Times New Roman', serif;
-    margin: 0;
-    padding: 0;
-    background-color: #e9e7e3; /* Un fond plus doux, parcheminé */
-    color: #4a3b31; /* Brun foncé pour le texte */
-    line-height: 1.7;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+/* General Body Styles */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fdfbf7; /* Art Deco Cream */
+            color: #3B2F2F; /* Art Deco Dark Brown */
+            line-height: 1.7;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Container for centering content */
+        .container {
+            width: 90%;
+            max-width: 960px;
+            margin: auto;
+            overflow: hidden;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: #0A2342; /* Art Deco Deep Blue */
+            color: #fdfbf7; /* Cream text */
+            padding: 1.5rem 0; /* Increased padding */
+            border-bottom: #c0a062 5px solid; /* Gold/Brass accent */
+        }
+
+        header .logo {
+            float: left;
+            font-family: 'Cinzel', serif; /* Art Deco display font */
+            font-size: 2.2rem; /* Increased size */
+            font-weight: bold;
+            color: #fdfbf7; /* Cream text */
+            text-transform: uppercase; /* Uppercase for Art Deco feel */
+        }
+
+        header nav {
+            float: right;
+            margin-top: 10px; /* Adjusted margin */
+        }
+
+        header nav ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        header nav ul li {
+            display: inline;
+            margin-left: 25px; /* Increased spacing */
+        }
+
+        header nav ul li a {
+            color: #fdfbf7; /* Cream text */
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase; /* Uppercase for nav links */
+            font-size: 0.9rem;
+        }
+
+        header nav ul li a.active {
+            color: #c0a062; /* Gold/Brass for active link */
+        }
+
+        /* Main Content Area for Upcoming Page */
+        .upcoming-container {
+            text-align: center;
+            padding: 3rem 0;
+            flex-grow: 1;
+        }
+
+        .upcoming-content h1 {
+            font-family: 'Cinzel', serif; /* Art Deco display font */
+            font-size: 3.2rem; /* Slightly increased size */
+            color: #0A2342; /* Deep Blue for headings */
+            margin-bottom: 2rem; /* Increased margin */
+            font-weight: bold; /* Bolder for Cinzel */
+            text-transform: uppercase;
+        }
+
+        /* Container for Train Animation and Cities */
+        .train-animation-placeholder {
+            background-color: #e0e0e0; /* Light grey, can be themed more later */
+            padding: 1rem 0;
+            margin: 2rem auto;
+            border-radius: 0; /* Sharper edges for Art Deco */
+            border: 2px solid #0A2342; /* Deep Blue border */
+            /* Consider a double border: border: 1px solid #c0a062; outline: 2px solid #0A2342; outline-offset: -4px; */
+            max-width: 700px;
+            color: #3B2F2F; /* Darker text */
+            overflow: hidden; 
+            position: relative;
+            height: 120px; /* Increased height for SVG train */
+            display: flex; 
+            align-items: center;
+        }
+
+        .city-graphic {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 0.5em 1em;
+            background-color: #0A2342; /* Deep Blue background */
+            color: #fdfbf7; /* Cream text */
+            border-radius: 0; /* Sharper edges */
+            font-weight: bold;
+            z-index: 10; 
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            border: 1px solid #c0a062; /* Gold border */
+        }
+
+        .city-left-graphic { /* Windsor */
+            left: 15px; 
+            /* color: #333; */ /* Replaced by general .city-graphic color */
+            /* border: 1px solid #C8102E; */ /* Replaced by general .city-graphic border */
+        }
+        .city-left-graphic .city-icon { color: #c0a062; } /* Gold icon */
+
+
+        .city-right-graphic { /* Québec */
+            right: 15px; 
+             /* color: #00205B; */ /* Replaced by general .city-graphic color */
+            /* border: 1px solid #00205B; */ /* Replaced by general .city-graphic border */
+        }
+        .city-right-graphic .city-icon { color: #c0a062; } /* Gold icon */
+
+        /* SVG Train Animation Styling */
+        .css-train-animation-svg {
+            /* SVG width is 600, viewBox 600 100. For display, let's make it ~300px wide */
+            width: 360px; /* Increased width for better detail (600 * 0.6) */
+            height: 60px; /* (100 * 0.6) to maintain aspect ratio */
+            animation: travel-ltr-svg 18s linear infinite; /* Increased duration */
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%); 
+            z-index: 5; 
+        }
+        
+        /* Keyframes for SVG train moving left to right */
+        /* Placeholder width: 700px */
+        /* SVG display width: 360px */
+        /* Windsor city (left): offset 15px, width ~120px. End of Windsor: 135px */
+        /* Quebec city (right): offset 15px from right, width ~120px. Start of Quebec: 700 - 15 - 120 = 565px */
+        @keyframes travel-ltr-svg {
+            0% {
+                left: -370px; /* Start completely hidden to the left (SVG width + a bit) */
+                opacity: 0;
+            }
+            10% { /* Still hidden, preparing to emerge */
+                left: -370px;
+                opacity: 0;
+            }
+            20% { /* Nose of the train has passed Windsor */
+                left: 140px; /* (End of Windsor city graphic) */
+                opacity: 1;
+            }
+            75% { /* Back of the train is about to enter Quebec city */
+                  /* Train's left edge = Start of Quebec city - SVG width */
+                  /* left = 565px - 360px = 205px */
+                left: 205px; 
+                opacity: 1;
+            }
+            85% { /* Nose of the train has entered Quebec city */
+                left: calc(100% - 15px - 120px - 360px + 50px); /* complex, adjust as needed */
+                opacity: 1;
+            }
+            100% {
+                left: 100%; /* Completely hidden to the right */
+                opacity: 0;
+            }
+        }
+        
+        .intro-text {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .links-section {
+            margin-bottom: 3rem;
+        }
+
+        .links-section p {
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #800020; /* Art Deco Burgundy */
+            color: #fdfbf7; /* Cream text */
+            padding: 12px 28px; /* Adjusted padding */
+            text-decoration: none;
+            border-radius: 0; /* Sharper edges */
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin: 0.5rem;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            border: 1px solid #600018; /* Darker burgundy border */
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .cta-button:hover, .cta-button:focus {
+            background-color: #600018; /* Darker Burgundy */
+            color: #fdfbf7;
+            transform: translateY(-2px);
+            box-shadow: 4px 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .cta-button.mail-button {
+            background-color: #fdfbf7; /* Cream background */
+            color: #3B2F2F; /* Dark text */
+            border: 1px solid #c0a062; /* Gold border */
+        }
+
+        .cta-button.mail-button:hover, .cta-button.mail-button:focus {
+            background-color: #e0e0e0; /* Slightly darker cream/grey for hover */
+            color: #0A2342; /* Deep Blue text on hover */
+            border-color: #0A2342; /* Deep Blue border on hover */
+        }
+
+        .contact-info {
+            margin-top: 1.5rem;
+        }
+
+        .map-section {
+            background-color: #e0e0e0; /* Light grey - placeholder, can be themed more */
+            padding: 2.5rem 0;
+            margin-top: 2rem;
+            border-top: 2px solid #c0a062; /* Gold accent */
+            border-bottom: 2px solid #c0a062; /* Gold accent */
+        }
+
+        .map-section h2 {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: normal;
+        }
+        .map-section > p {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            max-width: 800px;
+            margin: 1rem auto;
+            background: #ccc;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .map-placeholder iframe {
+            display: block;
+            width: 100%;
+        }
+
+        .map-caption {
+            font-size: 0.9rem;
+            text-align: center;
+            color: #777;
+            margin-top: 0.5rem;
+        }
+
+        footer {
+            background: #0A2342; /* Art Deco Deep Blue */
+            color: #fdfbf7; /* Cream text */
+            text-align: center;
+            padding: 2rem 0; /* Increased padding */
+            margin-top: auto;
+            border-top: #c0a062 5px solid; /* Gold/Brass accent */
+        }
+
+@media (max-width: 768px) {
+    header .logo {
+        float: none;
+        text-align: center;
+        font-size: 1.8rem; /* Reduced size for smaller screens */
+        margin-bottom: 0.5rem; /* Space below logo */
+    }
+
+    header nav {
+        float: none;
+        text-align: center;
+        margin-top: 5px;
+    }
+    
+    header nav ul li {
+        margin-left: 10px; /* Reduced margin */
+        margin-right: 10px; /* Added for centering if items wrap */
+    }
+
+    .upcoming-content h1 {
+        font-size: 2.5rem; /* Reduced size */
+    }
+
+    .intro-text {
+        font-size: 1.1rem;
+    }
+
+    .cta-button {
+        padding: 10px 20px; /* Slightly smaller padding */
+        font-size: 1rem;
+    }
+
+    .train-animation-placeholder {
+        height: 100px; /* Reduce height slightly */
+    }
+    
+    .css-train-animation-svg {
+        width: 300px; /* Slightly smaller train */
+        height: 50px; 
+    }
+
+    /* Adjust keyframes for smaller train and placeholder */
+    /* Placeholder width: 700px (max) but screen is smaller */
+    /* SVG display width: 300px */
+    /* Windsor city (left): offset 15px, width ~100px (estimate). End of Windsor: 115px */
+    /* Quebec city (right): offset 15px from right, width ~100px (estimate). Start of Quebec: screen_width - 15 - 100 */
+    /* This requires dynamic values or careful re-evaluation. 
+       For now, I'll adjust the percentage points slightly or the fixed pixel values if they were based on the old train size.
+       The current keyframes use a mix of percentages and fixed pixel values.
+       Let's adjust the fixed pixel values that relate to the train emerging/disappearing.
+    */
+    @keyframes travel-ltr-svg {
+        0% {
+            left: -310px; /* Start completely hidden (new SVG width + a bit) */
+            opacity: 0;
+        }
+        10% { 
+            left: -310px;
+            opacity: 0;
+        }
+        /* The following pixel values (140px, 205px) might need to be more dynamic or % based. */
+        /* For simplicity, if the placeholder itself shrinks, these might still work relative to its new width */
+        /* If .train-animation-placeholder max-width is hit, then these are relative to that (700px) */
+        /* If screen is smaller than 700px, these are relative to screen width. */
+        /* Let's assume for now the key points are still valid within the container's new size */
+        20% { 
+            left: 100px; /* Adjusted based on smaller train/container */
+            opacity: 1;
+        }
+        75% { 
+            left: calc(100% - 100px - 300px); /* placeholder_width - city_width - train_width */
+            opacity: 1;
+        }
+        85% { 
+            left: calc(100% - 100px - 300px + 40px); 
+            opacity: 1;
+        }
+        100% {
+            left: 100%; 
+            opacity: 0;
+        }
+    }
+
+    .city-graphic {
+        font-size: 0.7rem;
+        padding: 0.4em 0.8em;
+    }
+
+    .map-placeholder iframe {
+        height: 300px; /* Reduce map height */
+    }
 }
 
-.container {
-    width: 90%;
-    max-width: 960px; /* Un peu plus resserré pour une page "upcoming" */
-    margin: auto;
-    overflow: hidden;
-    padding: 0 20px;
-}
+@media (max-width: 480px) {
+    header .logo {
+        font-size: 1.6rem;
+    }
+    header nav ul li a {
+        font-size: 0.8rem;
+    }
 
-header {
-    background: #4a3b31; /* Brun foncé */
-    color: #fff;
-    padding: 1rem 0;
-    border-bottom: #c0a062 3px solid; /* Or vieilli */
-}
+    .upcoming-content h1 {
+        font-size: 2rem;
+    }
 
-header .logo {
-    float: left;
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #fff;
-}
+    .intro-text {
+        font-size: 1rem;
+    }
 
-header nav {
-    float: right;
-    margin-top: 5px;
-}
+    .css-train-animation-svg {
+        width: 240px; /* Even smaller train */
+        height: 40px; 
+    }
+    
+    @keyframes travel-ltr-svg { /* Re-define for 480px if needed, more specific adjustments */
+        0% {
+            left: -250px; 
+            opacity: 0;
+        }
+        10% { 
+            left: -250px;
+            opacity: 0;
+        }
+        20% { 
+            left: 80px; 
+            opacity: 1;
+        }
+        75% { 
+            left: calc(100% - 80px - 240px);
+            opacity: 1;
+        }
+        85% { 
+            left: calc(100% - 80px - 240px + 30px); 
+            opacity: 1;
+        }
+        100% {
+            left: 100%; 
+            opacity: 0;
+        }
+    }
 
-header nav ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-header nav ul li {
-    display: inline;
-    margin-left: 20px;
-}
-
-header nav ul li a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-header nav ul li a.active {
-    color: #c0a062;
-}
-
-.upcoming-container {
-    text-align: center;
-    padding: 3rem 0;
-    flex-grow: 1; /* Fait en sorte que le contenu principal pousse le footer vers le bas */
-}
-
-.upcoming-content h1 {
-    font-size: 2.8rem;
-    color: #4a3b31;
-    margin-bottom: 1.5rem;
-    font-weight: normal;
-}
-
-.train-animation-placeholder {
-    background-color: #f4f0ea;
-    padding: 2rem;
-    margin: 2rem auto;
-    border-radius: 8px;
-    border: 1px dashed #c0a062;
-    max-width: 600px;
-    font-style: italic;
-    color: #777;
-}
-.train-animation-placeholder p:first-child {
-    font-size: 2rem; /* Pour l'emoji train */
-    margin-bottom: 0.5rem;
-}
-
-
-.intro-text {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.links-section {
-    margin-bottom: 3rem;
-}
-
-.links-section p {
-    margin-bottom: 0.5rem;
-}
-
-.cta-button {
-    display: inline-block;
-    background-color: #8b7350; /* Brun moyen pour les boutons */
-    color: #fff;
-    padding: 12px 25px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 1.1rem;
-    margin: 0.5rem;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    border: 2px solid transparent;
-}
-
-.cta-button:hover {
-    background-color: #705d41;
-    transform: translateY(-2px);
-}
-
-.cta-button.mail-button {
-    background-color: transparent;
-    color: #8b7350;
-    border: 2px solid #8b7350;
-}
-
-.cta-button.mail-button:hover {
-    background-color: #f4f0ea;
-    color: #705d41;
-}
-
-
-.map-section {
-    background-color: #f8f6f2;
-    padding: 2.5rem 0;
-    margin-top: 2rem;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-}
-
-.map-section h2 {
-    text-align: center;
-    margin-bottom: 1rem;
-    font-weight: normal;
-}
-.map-section > p { /* Pour le paragraphe descriptif de la section carte */
-    text-align: center;
-    margin-bottom: 1.5rem;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-
-.map-placeholder {
-    width: 100%;
-    max-width: 800px; /* Limiter la largeur de la carte */
-    margin: 1rem auto;
-    background: #ccc; /* Placeholder si l'iframe ne charge pas */
-    border-radius: 5px;
-    overflow: hidden; /* Pour bien contenir l'iframe */
-}
-
-.map-placeholder iframe {
-    display: block; /* Évite les espaces sous l'iframe */
-}
-
-.map-caption {
-    font-size: 0.9rem;
-    text-align: center;
-    color: #777;
-    margin-top: 0.5rem;
-}
-
-footer {
-    background: #4a3b31;
-    color: #fff;
-    text-align: center;
-    padding: 1.5rem 0;
-    margin-top: auto; /* S'assure que le footer est en bas si le contenu est court */
-}
-
-/* Classes pour cacher/montrer contenu (identiques à avant) */
-.hidden {
-    display: none;
+    .city-graphic {
+        font-size: 0.6rem;
+        padding: 0.3em 0.6em;
+    }
+     .train-animation-placeholder {
+        height: 80px; /* Reduce height slightly */
+    }
 }
