@@ -31,10 +31,23 @@ jobs:
       - name: Determine Preview Path
         id: path_vars
         run: |
-          # For PRs, path is always pr-preview/PR_NUMBER
+          if [ -z "${{ github.event.number }}" ]; then
+            echo "Error: PR number (github.event.number) is not available."
+            exit 1
+          fi
           echo "preview_path=pr-preview/${{ github.event.number }}" >> $GITHUB_ENV
           # Base URL path for potential <base> tag, includes leading and trailing slash for safety
           echo "base_url_path=/pr-preview/${{ github.event.number }}/" >> $GITHUB_ENV
+          echo "Preview path will be: pr-preview/${{ github.event.number }}"
+
+      - name: Validate Preview Path
+        run: |
+          if [ -z "${{ env.preview_path }}" ]; then
+            echo "Error: env.preview_path is empty. This would cause a root deployment."
+            exit 1
+          else
+            echo "env.preview_path is set to: ${{ env.preview_path }}"
+          fi
 
       # Optional: Adjust base href for PR previews if assets don't load correctly.
       # Start without this, as relative paths should work.
@@ -47,14 +60,19 @@ jobs:
 
       - name: Prepare Artifact for Upload
         run: |
+          echo "Creating directory: artifact_to_upload/${{ env.preview_path }}"
           mkdir -p artifact_to_upload/${{ env.preview_path }}
           echo "Copying files to artifact_to_upload/${{ env.preview_path }}/"
           # Copy all files and directories, excluding .git, .github, and the artifact dir itself
           # Using rsync for more control and to easily exclude
           rsync -av --progress . artifact_to_upload/${{ env.preview_path }}/ --exclude .git --exclude .github --exclude artifact_to_upload
-          echo "Listing content of artifact_to_upload:"
-          ls -R artifact_to_upload
+          echo "Finished copying files."
         # This moves all files into the target directory.
+
+      - name: List Artifact Contents
+        run: |
+          echo "Listing contents of artifact_to_upload directory:"
+          ls -R artifact_to_upload
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -68,9 +86,8 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Post PR Comment with Preview Link
-        # Only run if deployment step produced a page_url
-        if: steps.deployment.outputs.page_url != ''
+      - name: Post PR Comment with Preview Link (Find Existing)
+        if: success() # Run only if previous steps were successful
         uses: peter-evans/find-comment@v3
         id: fc
         with:
@@ -79,12 +96,13 @@ jobs:
           body-includes: '🚀 PR Preview available at:'
 
       - name: Create or Update PR Comment
-        if: steps.deployment.outputs.page_url != ''
+        if: success() # Run only if previous steps were successful
         uses: peter-evans/create-or-update-comment@v4
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.number }}
           body: |
-            🚀 PR Preview available at: ${{ steps.deployment.outputs.page_url }}
+            🚀 PR Preview available at: https://grandtrain.ca/pr-preview/${{ github.event.number }}/
+            (Debug - Raw page_url from deployment: ${{ steps.deployment.outputs.page_url }})
             Workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           edit-mode: replace
